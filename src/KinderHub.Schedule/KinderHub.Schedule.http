@@ -1,0 +1,6 @@
+@KinderHub.Schedule_HostAddress = http://localhost:5109
+
+GET {{KinderHub.Schedule_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

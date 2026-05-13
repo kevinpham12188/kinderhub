@@ -1,0 +1,6 @@
+@KinderHub.Reporting_HostAddress = http://localhost:5269
+
+GET {{KinderHub.Reporting_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
