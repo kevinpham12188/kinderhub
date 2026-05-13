@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/KinderHub.Attendance/KinderHub.Attendance.csproj" />
+    <Project Path="src/KinderHub.Enrollment/KinderHub.Enrollment.csproj" />
+    <Project Path="src/KinderHub.Gateway/KinderHub.Gateway.csproj" />
+    <Project Path="src/KinderHub.Identity/KinderHub.Identity.csproj" />
+    <Project Path="src/KinderHub.Notification/KinderHub.Notification.csproj" />
+    <Project Path="src/KinderHub.Reporting/KinderHub.Reporting.csproj" />
+    <Project Path="src/KinderHub.Schedule/KinderHub.Schedule.csproj" />
+    <Project Path="src/KinderHub.Supply/KinderHub.Supply.csproj" />
+  </Folder>
+</Solution>

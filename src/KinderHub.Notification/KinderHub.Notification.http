@@ -1,0 +1,6 @@
+@KinderHub.Notification_HostAddress = http://localhost:5210
+
+GET {{KinderHub.Notification_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
