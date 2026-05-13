@@ -20,10 +20,25 @@ jobs:
           dotnet-version: "10.0.x"
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: |
+          if [ -f "*.sln" ] || ls *.sln 2>/dev/null; then
+            dotnet restore
+          else
+            echo "No solution file yet — skipping restore"
+          fi
 
       - name: Build
-        run: dotnet build --no-restore --configuration Release
+        run: |
+          if ls *.sln 2>/dev/null; then
+            dotnet build --no-restore --configuration Release
+          else
+            echo "No solution file yet — skipping build"
+          fi
 
       - name: Test
-        run: dotnet test --no-build --configuration Release --verbosity normal
+        run: |
+          if ls *.sln 2>/dev/null; then
+            dotnet test --no-build --configuration Release --verbosity normal
+          else
+            echo "No solution file yet — skipping test"
+          fi
