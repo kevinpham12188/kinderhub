@@ -1,6 +1,14 @@
-@KinderHub.Identity_HostAddress = http://localhost:5006
+@baseUrl = http://localhost:5006
 
-GET {{KinderHub.Identity_HostAddress}}/weatherforecast/
-Accept: application/json
+### Register - happy path
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
 
-###
+{
+  "firstName": "Jo",
+  "lastName": "Smith",
+  "email": "notavalidemail",
+  "phoneNumber": "555-987-6543",
+  "password": "weak",
+  "role": 2
+}

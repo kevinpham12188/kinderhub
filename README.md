@@ -51,14 +51,14 @@ All seven services, databases, Redis, and RabbitMQ start with one command.
 ---
 
 ### Phase 1 — Solution Structure
-- [ ] Solution scaffold — all 7 services + gateway
-- [ ] docker-compose — PostgreSQL + RabbitMQ
-- [ ] GitHub Actions CI pipeline
+- [x] Solution scaffold — all 7 services + gateway
+- [x] docker-compose — PostgreSQL + RabbitMQ
+- [x] GitHub Actions CI pipeline
 
 ---
 
 ### Phase 2 — Identity Service
-- [ ] Schema design
+- [x] Schema design
 - [ ] Register + login endpoints
 - [ ] JWT token generation + validation
 - [ ] BCrypt password hashing
