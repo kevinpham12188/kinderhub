@@ -1,5 +1,6 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using KinderHub.Identity.Configuration;
 using KinderHub.Identity.Data;
 using KinderHub.Identity.Middleware;
 using KinderHub.Identity.Repositories;
@@ -23,8 +24,10 @@ builder.Services.AddDbContext<IdentityDbContext>(options =>
 builder.Services.AddProblemDetails();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<RegisterRequestValidator>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
 builder.Services.AddControllers();
 
 var app = builder.Build();
