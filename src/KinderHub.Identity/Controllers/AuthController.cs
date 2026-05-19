@@ -1,6 +1,7 @@
 using KinderHub.Identity.DTOs;
 using KinderHub.Identity.DTOs.Requests;
 using KinderHub.Identity.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KinderHub.Identity.Controllers
@@ -27,6 +28,27 @@ namespace KinderHub.Identity.Controllers
         {
             var result = await _service.LoginAsync(request);
             return Ok(result);
+        }
+
+        [Authorize]
+        [HttpGet("profile")]
+        public IActionResult AuthenticatedUser()
+        {
+            return Ok(new {message = "Access granted"});
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("admin-only")]
+        public IActionResult AdminAuthenticatedUser()
+        {
+            return Ok(new {message = "Access granted"});
+        }
+
+        [Authorize(Roles = "Admin,Teacher")]
+        [HttpGet("teacher-only")]
+        public IActionResult AdminTeacherAuthenticatedUser()
+        {
+            return Ok(new {message = "Access granted"});
         }
     }
 }
