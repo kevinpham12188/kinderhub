@@ -60,8 +60,8 @@ All seven services, databases, Redis, and RabbitMQ start with one command.
 ### Phase 2 — Identity Service
 - [x] Schema design
 - [x] Register + login endpoints
-- [ ] JWT token generation + validation
-- [ ] BCrypt password hashing
+- [x] JWT token generation + validation
+- [x] BCrypt password hashing
 - [ ] Role-based access — Admin, Teacher, Parent
 - [ ] Unit tests — xUnit + Moq
 
