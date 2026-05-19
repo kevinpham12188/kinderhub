@@ -1,5 +1,6 @@
 using FluentValidation;
 using KinderHub.Identity.DTOs;
+using KinderHub.Identity.DTOs.Requests;
 
 namespace KinderHub.Identity.Validators
 {

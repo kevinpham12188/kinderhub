@@ -1,4 +1,5 @@
 using KinderHub.Identity.DTOs;
+using KinderHub.Identity.DTOs.Requests;
 using KinderHub.Identity.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,12 @@ namespace KinderHub.Identity.Controllers
             var result = await _service.RegisterAsync(request);
             return Created(string.Empty, result);
         }
-        
+
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginAsync([FromBody] LoginRequestDto request)
+        {
+            var result = await _service.LoginAsync(request);
+            return Ok(result);
+        }
     }
 }

@@ -35,6 +35,13 @@ namespace KinderHub.Identity.Middleware
                     Detail = ex.Message,
                     Type = "https://httpstatuses.io/409"
                 },
+                UnauthorizedException => new ProblemDetails
+                {
+                    Status = 401,
+                    Title = "Unauthorized",
+                    Detail = "Invalid email or password",
+                    Type = "https://httpstatuses.io/401"
+                },
                 _ => new ProblemDetails
                 {
                     Status = 500,

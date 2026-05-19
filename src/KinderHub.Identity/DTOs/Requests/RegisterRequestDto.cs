@@ -1,6 +1,6 @@
 using KinderHub.Identity.Models.Enums;
 
-namespace KinderHub.Identity.DTOs
+namespace KinderHub.Identity.DTOs.Requests
 {
     public class RegisterRequestDto
     {
