@@ -9,4 +9,7 @@
     <Project Path="src/KinderHub.Schedule/KinderHub.Schedule.csproj" />
     <Project Path="src/KinderHub.Supply/KinderHub.Supply.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/KinderHub.Identity.Tests/KinderHub.Identity.Tests.csproj" />
+  </Folder>
 </Solution>

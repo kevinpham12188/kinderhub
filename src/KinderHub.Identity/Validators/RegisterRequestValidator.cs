@@ -11,13 +11,11 @@ namespace KinderHub.Identity.Validators
             RuleFor(x => x.FirstName)
                 .NotEmpty().WithMessage("First name is required")
                 .Matches(@"^[a-zA-Z\s\-']+$").WithMessage("First name cannot contain special characters")
-                .MinimumLength(3).WithMessage("First name must be at least 3 characters")
                 .MaximumLength(100).WithMessage("First name cannot exceed 100 characters");
 
             RuleFor(x => x.LastName)
                 .NotEmpty().WithMessage("Last name is required")
                 .Matches(@"^[a-zA-Z\s\-']+$").WithMessage("Last name cannot contain special characters")
-                .MinimumLength(3).WithMessage("Last name must be at least 3 characters")
                 .MaximumLength(100).WithMessage("Last name cannot exceed 100 characters");   
 
             RuleFor(x => x.Email)
