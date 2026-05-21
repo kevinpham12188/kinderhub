@@ -62,7 +62,7 @@ All seven services, databases, Redis, and RabbitMQ start with one command.
 - [x] Register + login endpoints
 - [x] JWT token generation + validation
 - [x] BCrypt password hashing
-- [ ] Role-based access — Admin, Teacher, Parent
+- [x] Role-based access — Admin, Teacher, Parent
 - [ ] Unit tests — xUnit + Moq
 
 ---
