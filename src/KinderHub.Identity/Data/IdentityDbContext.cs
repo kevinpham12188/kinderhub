@@ -44,6 +44,30 @@ namespace KinderHub.Identity.Data
                 .WithOne(a => a.ParentProfile)
                 .HasForeignKey(a => a.ParentId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+                // Field length constraints
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.Property(u => u.FirstName).HasMaxLength(100);
+                entity.Property(u => u.LastName).HasMaxLength(100);
+                entity.Property(u => u.Email).HasMaxLength(255);
+                entity.Property(u => u.PhoneNumber).HasMaxLength(20);
+                entity.Property(u => u.PasswordHash).HasMaxLength(60);
+            });
+
+            modelBuilder.Entity<ParentProfile>(entity =>
+            {
+                entity.Property(p => p.HomeAddress).HasMaxLength(300);
+                entity.Property(p => p.EmergencyContactName).HasMaxLength(100);
+                entity.Property(p => p.EmergencyContactPhone).HasMaxLength(20);
+            });
+
+            modelBuilder.Entity<AuthorizedPickup>(entity =>
+            {
+                entity.Property(a => a.Name).HasMaxLength(100);
+                entity.Property(a => a.PhoneNumber).HasMaxLength(20);
+            });
         }
+  
     }
 }
