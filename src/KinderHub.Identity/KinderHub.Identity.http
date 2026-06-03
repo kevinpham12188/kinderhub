@@ -9,6 +9,28 @@ Content-Type: application/json
   "password": "SecurePass123!"
 }
 
+### Register Admin
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "Kevin",
+  "lastName": "Pham",
+  "email": "admin@kinderhub.com",
+  "phoneNumber": "555-123-4567",
+  "password": "SecurePass123!",
+  "role": 0
+}
+
+### Login as Admin - get token
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@kinderhub.com",
+  "password": "SecurePass123!"
+}
+
 ### Profile - no token (expect 401)
 GET {{baseUrl}}/api/auth/profile
 

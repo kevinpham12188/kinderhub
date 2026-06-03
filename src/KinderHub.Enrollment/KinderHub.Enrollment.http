@@ -1,6 +1,71 @@
-@KinderHub.Enrollment_HostAddress = http://localhost:5009
+@baseUrl = http://localhost:5009
+@adminToken = YOUR_ADMIN_TOKEN_HERE
+@teacherToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJkOGMzY2U2Ni1mMjUyLTQ5MTEtODBhNS0yOWM0NGQzY2EzMzUiLCJlbWFpbCI6ImphbmUyQGtpbmRlcmh1Yi5jb20iLCJyb2xlIjoiVGVhY2hlciIsIm5iZiI6MTc4MDUwNDIxMSwiZXhwIjoxNzgwNTA3ODExLCJpYXQiOjE3ODA1MDQyMTEsImlzcyI6IktpbmRlckh1Yi5JZGVudGl0eSIsImF1ZCI6IktpbmRlckh1YiJ9.VxVf1k_dMPD4epYxotWHHM-NYWydSeWnaatF3StRqPw
 
-GET {{KinderHub.Enrollment_HostAddress}}/weatherforecast/
-Accept: application/json
+### Create classroom - happy path
+POST {{baseUrl}}/api/classrooms
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
 
-###
+{
+  "name": "Sunflower Room",
+  "ageGroup": 0
+}
+
+### Create classroom - duplicate name
+POST {{baseUrl}}/api/classrooms
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "name": "Sunflower Room",
+  "ageGroup": 1
+}
+
+### Create classroom - validation error
+POST {{baseUrl}}/api/classrooms
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "name": "AB",
+  "ageGroup": 0
+}
+
+### Get all classrooms
+GET {{baseUrl}}/api/classrooms
+Authorization: Bearer {{adminToken}}
+
+### Get classroom by ID - replace with actual ID
+GET {{baseUrl}}/api/classrooms/00000000-0000-0000-0000-000000000000
+Authorization: Bearer {{adminToken}}
+
+### Get classroom by ID - not found
+GET {{baseUrl}}/api/classrooms/00000000-0000-0000-0000-000000000001
+Authorization: Bearer {{adminToken}}
+
+### Update classroom
+PUT {{baseUrl}}/api/classrooms/00000000-0000-0000-0000-000000000000
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "name": "Rainbow Room"
+}
+
+### Delete classroom
+DELETE {{baseUrl}}/api/classrooms/00000000-0000-0000-0000-000000000000
+Authorization: Bearer {{adminToken}}
+
+### No token - expect 401
+GET {{baseUrl}}/api/classrooms
+
+### Teacher token on POST - expect 403
+POST {{baseUrl}}/api/classrooms
+Content-Type: application/json
+Authorization: Bearer {{teacherToken}}
+
+{
+  "name": "Blue Room",
+  "ageGroup": 0
+}
