@@ -71,6 +71,8 @@ builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateClassroomRequestValidator>();
 builder.Services.AddScoped<IClassroomRepository, ClassroomRepository>();
 builder.Services.AddScoped<IClassroomService, ClassroomService>();
+builder.Services.AddScoped<IClassroomTeacherRepository, ClassroomTeacherRepository>();
+builder.Services.AddScoped<IClassroomTeacherService, ClassroomTeacherService>();
 
 
 builder.Services.AddControllers();

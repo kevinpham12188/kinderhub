@@ -10,9 +10,11 @@ namespace KinderHub.Enrollment.Controllers
     public class ClassroomController : ControllerBase
     {
         private readonly IClassroomService _classroomService;
-        public ClassroomController(IClassroomService classroomService)
+        private readonly IClassroomTeacherService _classroomTeacherService;
+        public ClassroomController(IClassroomService classroomService, IClassroomTeacherService classroomTeacherService)
         {
             _classroomService = classroomService;
+            _classroomTeacherService = classroomTeacherService;
         }
 
         [HttpPost]
@@ -52,6 +54,31 @@ namespace KinderHub.Enrollment.Controllers
         public async Task<IActionResult> DeleteClassroomAsync(Guid id)
         {
             await _classroomService.DeleteClassroomAsync(id);
+            return NoContent();
+        }
+
+        // Classroom Teacher Endpoints
+        [HttpPost("{id}/teachers")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AssignTeacherAsync(Guid id, [FromBody] AssignTeacherRequestDto request)
+        {
+            var result = await _classroomTeacherService.AssignTeacherToClassroomAsync(id, request);
+            return Created(string.Empty, result);
+        }
+
+        [HttpGet("{id}/teachers")]
+        [Authorize(Roles = "Admin,Teacher")]
+        public async Task<IActionResult> GetTeachersByClassroomIdAsync(Guid id)
+        {
+            var result = await _classroomTeacherService.GetTeachersByClassroomIdAsync(id);
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}/teachers/{teacherId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RemoveTeacherFromClassroomAsync(Guid id, Guid teacherId)
+        {
+            await _classroomTeacherService.RemoveTeacherFromClassroomAsync(id, teacherId);
             return NoContent();
         }
     }
