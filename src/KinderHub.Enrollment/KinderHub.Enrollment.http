@@ -1,8 +1,10 @@
 @baseUrl = http://localhost:5009
-@adminToken = YOUR_ADMIN_TOKEN_HERE
-@teacherToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJkOGMzY2U2Ni1mMjUyLTQ5MTEtODBhNS0yOWM0NGQzY2EzMzUiLCJlbWFpbCI6ImphbmUyQGtpbmRlcmh1Yi5jb20iLCJyb2xlIjoiVGVhY2hlciIsIm5iZiI6MTc4MDUwNDIxMSwiZXhwIjoxNzgwNTA3ODExLCJpYXQiOjE3ODA1MDQyMTEsImlzcyI6IktpbmRlckh1Yi5JZGVudGl0eSIsImF1ZCI6IktpbmRlckh1YiJ9.VxVf1k_dMPD4epYxotWHHM-NYWydSeWnaatF3StRqPw
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI5NDAxMDliNi1iZGM1LTQ3Y2MtOTQyYi1jNDUzNzA5NjZlMGMiLCJlbWFpbCI6ImFkbWluQGtpbmRlcmh1Yi5jb20iLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3ODA1MTA2NDgsImV4cCI6MTc4MDUxNDI0OCwiaWF0IjoxNzgwNTEwNjQ4LCJpc3MiOiJLaW5kZXJIdWIuSWRlbnRpdHkiLCJhdWQiOiJLaW5kZXJIdWIifQ.njx3FhJR4pW1H2fGhARssTroKR1hyD_uRTx4jmpLGPg
+@teacherToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJkOGMzY2U2Ni1mMjUyLTQ5MTEtODBhNS0yOWM0NGQzY2EzMzUiLCJlbWFpbCI6ImphbmUyQGtpbmRlcmh1Yi5jb20iLCJyb2xlIjoiVGVhY2hlciIsIm5iZiI6MTc4MDUxMDc0NywiZXhwIjoxNzgwNTE0MzQ3LCJpYXQiOjE3ODA1MTA3NDcsImlzcyI6IktpbmRlckh1Yi5JZGVudGl0eSIsImF1ZCI6IktpbmRlckh1YiJ9.RTj3B1DZB_FBZ5SxQsYkfdmnOk57ij4fxijNmzJjM2g
+@classroomId = 766d1638-40a3-4b81-84df-a16218c83404
+@teacherUserId = d8c3ce66-f252-4911-80a5-29c44d3ca335
 
-### Create classroom - happy path
+### Create classroom
 POST {{baseUrl}}/api/classrooms
 Content-Type: application/json
 Authorization: Bearer {{adminToken}}
@@ -12,60 +14,54 @@ Authorization: Bearer {{adminToken}}
   "ageGroup": 0
 }
 
-### Create classroom - duplicate name
-POST {{baseUrl}}/api/classrooms
+### Assign teacher - happy path
+POST {{baseUrl}}/api/classrooms/{{classroomId}}/teachers
 Content-Type: application/json
 Authorization: Bearer {{adminToken}}
 
 {
-  "name": "Sunflower Room",
-  "ageGroup": 1
+  "teacherId": "{{teacherUserId}}"
 }
 
-### Create classroom - validation error
-POST {{baseUrl}}/api/classrooms
+### Assign same teacher again - expect 409
+POST {{baseUrl}}/api/classrooms/{{classroomId}}/teachers
 Content-Type: application/json
 Authorization: Bearer {{adminToken}}
 
 {
-  "name": "AB",
-  "ageGroup": 0
+  "teacherId": "{{teacherUserId}}"
 }
 
-### Get all classrooms
-GET {{baseUrl}}/api/classrooms
-Authorization: Bearer {{adminToken}}
-
-### Get classroom by ID - replace with actual ID
-GET {{baseUrl}}/api/classrooms/00000000-0000-0000-0000-000000000000
-Authorization: Bearer {{adminToken}}
-
-### Get classroom by ID - not found
-GET {{baseUrl}}/api/classrooms/00000000-0000-0000-0000-000000000001
-Authorization: Bearer {{adminToken}}
-
-### Update classroom
-PUT {{baseUrl}}/api/classrooms/00000000-0000-0000-0000-000000000000
+### Assign teacher to another classroom - expect 409
+POST {{baseUrl}}/api/classrooms/{{classroomId}}/teachers
 Content-Type: application/json
 Authorization: Bearer {{adminToken}}
 
 {
-  "name": "Rainbow Room"
+  "teacherId": "{{teacherUserId}}"
 }
 
-### Delete classroom
-DELETE {{baseUrl}}/api/classrooms/00000000-0000-0000-0000-000000000000
+### Get teachers in classroom
+GET {{baseUrl}}/api/classrooms/{{classroomId}}/teachers
 Authorization: Bearer {{adminToken}}
 
-### No token - expect 401
-GET {{baseUrl}}/api/classrooms
+### Get classroom by ID - verify maxCapacity updated
+GET {{baseUrl}}/api/classrooms/{{classroomId}}
+Authorization: Bearer {{adminToken}}
 
-### Teacher token on POST - expect 403
-POST {{baseUrl}}/api/classrooms
+### Assign teacher to non-existent classroom - expect 404
+POST {{baseUrl}}/api/classrooms/00000000-0000-0000-0000-000000000001/teachers
 Content-Type: application/json
-Authorization: Bearer {{teacherToken}}
+Authorization: Bearer {{adminToken}}
 
 {
-  "name": "Blue Room",
-  "ageGroup": 0
+  "teacherId": "{{teacherUserId}}"
 }
+
+### Unassign teacher
+DELETE {{baseUrl}}/api/classrooms/{{classroomId}}/teachers/{{teacherUserId}}
+Authorization: Bearer {{adminToken}}
+
+### Get classroom after unassign - verify maxCapacity back to 0
+GET {{baseUrl}}/api/classrooms/{{classroomId}}
+Authorization: Bearer {{adminToken}}
