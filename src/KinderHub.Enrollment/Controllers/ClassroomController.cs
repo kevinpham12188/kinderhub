@@ -11,10 +11,12 @@ namespace KinderHub.Enrollment.Controllers
     {
         private readonly IClassroomService _classroomService;
         private readonly IClassroomTeacherService _classroomTeacherService;
-        public ClassroomController(IClassroomService classroomService, IClassroomTeacherService classroomTeacherService)
+        private readonly IChildService _childService;
+        public ClassroomController(IClassroomService classroomService, IClassroomTeacherService classroomTeacherService, IChildService childService)
         {
             _classroomService = classroomService;
             _classroomTeacherService = classroomTeacherService;
+            _childService = childService;
         }
 
         [HttpPost]
@@ -80,6 +82,15 @@ namespace KinderHub.Enrollment.Controllers
         {
             await _classroomTeacherService.RemoveTeacherFromClassroomAsync(id, teacherId);
             return NoContent();
+        }
+
+        // Children in Classroom Endpoint
+        [HttpGet("{id}/children")]
+        [Authorize(Roles = "Admin,Teacher")]
+        public async Task<IActionResult> GetChildrenByClassroomIdAsync(Guid id)
+        {
+            var result = await _childService.GetChildrenByClassroomIdAsync(id);
+            return Ok(result);  
         }
     }
 }

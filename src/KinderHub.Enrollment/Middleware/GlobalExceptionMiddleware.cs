@@ -35,6 +35,20 @@ namespace KinderHub.Enrollment.Middleware
                     Detail = ex.Message,
                     Type = "https://httpstatuses.io/409"
                 },
+                CapacityExceededException => new ProblemDetails
+                {
+                    Status = 409,
+                    Title = "Conflict",
+                    Detail = ex.Message,
+                    Type = "https://httpstatuses.io/409"
+                },
+                AgeGroupMismatchException => new ProblemDetails
+                {
+                    Status = 409,
+                    Title = "Conflict",
+                    Detail = ex.Message,
+                    Type = "https://httpstatuses.io/409"
+                },
                 NotFoundException => new ProblemDetails
                 {
                     Status = 404,

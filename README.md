@@ -70,7 +70,7 @@ All seven services, databases, Redis, and RabbitMQ start with one command.
 ### Phase 3 — Enrollment Service
 - [x] Schema design
 - [x] Manage classrooms (create, list, get, update, delete)
-- [ ] Assign teacher to classroom
+- [x] Assign teacher to classroom
 - [ ] Enroll a child
 - [ ] Withdraw a child
 - [ ] Waitlist (add, list, fulfill, cancel)

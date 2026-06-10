@@ -73,6 +73,8 @@ builder.Services.AddScoped<IClassroomRepository, ClassroomRepository>();
 builder.Services.AddScoped<IClassroomService, ClassroomService>();
 builder.Services.AddScoped<IClassroomTeacherRepository, ClassroomTeacherRepository>();
 builder.Services.AddScoped<IClassroomTeacherService, ClassroomTeacherService>();
+builder.Services.AddScoped<IChildRepository, ChildRepository>();
+builder.Services.AddScoped<IChildService, ChildService>();
 
 
 builder.Services.AddControllers();
