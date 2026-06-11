@@ -42,5 +42,23 @@ namespace KinderHub.Enrollment.Repositories
         {
             return await _context.Children.CountAsync(c => c.ClassroomId == classroomId && c.Status == ChildStatus.Active);
         }
+
+        public async Task<Child> WithdrawChildAsync(Guid id)
+        {
+            var child = await  _context.Children.Include(c => c.Classroom).FirstOrDefaultAsync(c => c.Id == id);
+            child!.Status = ChildStatus.Withdrawn;
+            child.ClassroomId = null;
+
+            await _context.SaveChangesAsync();
+            return child;
+
+        }
+        public async Task<IEnumerable<Child>> GetActiveChildrenWithClassroomAsync()
+        {
+            return await _context.Children
+                .Include(c => c.Classroom)
+                .Where(c => c.Status == ChildStatus.Active && c.ClassroomId != null)
+                .ToListAsync(); 
+        }
     }
 }
