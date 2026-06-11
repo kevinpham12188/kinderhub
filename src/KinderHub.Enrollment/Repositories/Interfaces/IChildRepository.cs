@@ -10,5 +10,7 @@ namespace KinderHub.Enrollment.Repositories.Interfaces
          Task<Child> UpdateChildAsync(Child child);
          Task<IEnumerable<Child>> GetChildrenByClassroomIdAsync(Guid classroomId);
          Task<int> CountChildrenInClassroomAsync(Guid classroomId);
+         Task<Child> WithdrawChildAsync(Guid id);
+         Task<IEnumerable<Child>> GetActiveChildrenWithClassroomAsync();
     }
 }

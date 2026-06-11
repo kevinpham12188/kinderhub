@@ -110,6 +110,56 @@ namespace KinderHub.Enrollment.Services
             var children = await _childRepo.GetChildrenByClassroomIdAsync(classroomId);
             return children.Select(MapToResponseDto);
         }
+
+        public async Task<ChildResponseDto> WithdrawChildAsync(Guid id)
+        {
+            var child = await _childRepo.GetChildByIdAsync(id);
+            if(child == null)
+            {
+                throw new NotFoundException($"Child with ID {id} not found.");
+            }
+            if(child.Status != ChildStatus.Active)
+            {
+                throw new ConflictException("Child is not active and cannot be withdrawn");
+            }
+            var updatedChild = await _childRepo.WithdrawChildAsync(id);
+            return MapToResponseDto(updatedChild);
+        }
+
+        //age mismatch flag for dashboard
+        public async Task<IEnumerable<AgeMismatchResponseDto>> GetAgeMismatchesAsync()
+        {
+            var children = await _childRepo.GetActiveChildrenWithClassroomAsync();
+            var mismatches = new List<AgeMismatchResponseDto>();
+
+            foreach(var child in children)
+            {
+                var calculatedAgeGroup = EnrollmentRules.CalculateAgeGroup(child.DateOfBirth);
+
+                var classroomAgeGroup = child.Classroom!.AgeGroup;
+
+                if(calculatedAgeGroup == classroomAgeGroup) continue;
+
+                if(calculatedAgeGroup == AgeGroup.Preschool && classroomAgeGroup == AgeGroup.Twaddler && !child.IsPottyTrained) continue;
+
+                var today = DateOnly.FromDateTime(DateTime.UtcNow);
+                var ageInMonths = ((today.Year - child.DateOfBirth.Year) * 12)
+                        + (today.Month - child.DateOfBirth.Month);
+
+                mismatches.Add(new AgeMismatchResponseDto
+                {
+                    ChildId = child.Id,
+                    ChildName = $"{child.FirstName} {child.LastName}",
+                    DateOfBirth = child.DateOfBirth,
+                    AgeInMonths = ageInMonths,
+                    CurrentAgeGroup = classroomAgeGroup.ToString(),
+                    RecommendedAgeGroup = calculatedAgeGroup.ToString(),
+                    CurrentClassroomId = child.ClassroomId!.Value,
+                    CurrentClassroomName = child.Classroom.Name
+                });       
+            }
+            return mismatches;
+        }
     
         private static ChildResponseDto MapToResponseDto(Child child)
         {

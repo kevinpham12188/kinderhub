@@ -10,5 +10,9 @@ namespace KinderHub.Enrollment.Services.Interfaces
          Task<ChildResponseDto> GetChildByIdAsync(Guid id);
          Task<ChildResponseDto> UpdateChildAsync(Guid id, UpdateChildRequestDto request);
          Task<IEnumerable<ChildResponseDto>> GetChildrenByClassroomIdAsync(Guid classroomId);
+         Task<ChildResponseDto> WithdrawChildAsync(Guid id);
+
+        //age mismatch flag for dashboard
+         Task<IEnumerable<AgeMismatchResponseDto>> GetAgeMismatchesAsync();
     }
 }

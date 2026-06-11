@@ -47,5 +47,23 @@ namespace KinderHub.Enrollment.Controllers
             var result = await _childService.UpdateChildAsync(id, request);
             return Ok(result);
         }
+
+        // PUT /api/children/{id}/withdraw
+        [HttpPut("{id}/withdraw")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> WithdrawChildAsync(Guid id)
+        {
+            var result = await _childService.WithdrawChildAsync(id);
+            return Ok(result);
+        }
+
+        // GET /api/children/age-mismatches
+        [HttpGet("age-mismatches")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAgeMismatchesAsync()
+        {
+            var result = await _childService.GetAgeMismatchesAsync();
+            return Ok(result);
+        }
     }
 }
